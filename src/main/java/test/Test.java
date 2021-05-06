@@ -36,11 +36,11 @@ public class Test {
 		MongoClient clienteMongo = new ConnexionMongoDB().getMongoClient();
 
 		//Conexión a la base de datos (si no existe, mongoDB crea la base de datos cuando se alojen datos en ella)
-		MongoDatabase baseDeDatos = clienteMongo.getDatabase("pruebaComercio").withCodecRegistry(pojoCodecRegistry);
+		MongoDatabase farmaciaDB = clienteMongo.getDatabase("farmacia").withCodecRegistry(pojoCodecRegistry);
 
 		//Conexión con la colección (si no existe, mongoDB crea la coleccion cuando se alojen datos en ella)
 		//MongoCollection collection = baseDeDatos.getCollection("productos");
-		MongoCollection sucursalCollection = baseDeDatos.getCollection("sucursal", Sucursal.class );
+		MongoCollection sucursalCollection = farmaciaDB.getCollection("sucursal", Sucursal.class );
 		
 		
 		//OBJETOS
