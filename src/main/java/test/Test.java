@@ -8,6 +8,7 @@ import pojos.Empleado;
 import pojos.Item;
 import pojos.ObraSocial;
 import pojos.Producto;
+import pojos.Sucursal;
 import pojos.Venta;
 
 import com.mongodb.MongoClient;				//Para instanciar mongoDB
@@ -39,7 +40,10 @@ public class Test {
 
 		//Conexión con la colección (si no existe, mongoDB crea la coleccion cuando se alojen datos en ella)
 		//MongoCollection collection = baseDeDatos.getCollection("productos");
-		MongoCollection collection = baseDeDatos.getCollection("Venta", Venta.class );
+		MongoCollection sucursalCollection = baseDeDatos.getCollection("sucursal", Sucursal.class );
+		
+		
+		//OBJETOS
 		Producto pro1 = new Producto(1, "Prod11", 34, "descripcion1", true );
 		Producto pro2 = new Producto(2, "Prod22", 22, "descripcion2", false );
 		Domicilio dom = new Domicilio(1, "calle", 45, "localidad3", "provincia3");
@@ -48,16 +52,21 @@ public class Test {
 		Cliente cliente = new Cliente(4, 44444444 , "Juan", "Gomés", "444-111", dom, 5, obraSocial, 22  );
 		List<Item> items = new ArrayList<Item>();
 				items.add(new Item(pro1, 8, 3));
-				items.add(new Item(pro2, 5, 5));
-		
+				items.add(new Item(pro2, 5, 5));		
 		Venta venta = new Venta(3, LocalDate.now(), 255, "Pago credito", emp, emp, cliente, items);
+		List<Venta> ventas = new ArrayList<Venta>();
+		ventas.add(venta);
 		
-
+		Sucursal sucursal = new Sucursal(1, dom, ventas);
+		
+		sucursalCollection.insertOne(sucursal); // INSERTAR UN Documento BSON
+		
+		
 		//Traer lista de colecciones en una base de datos
-		for (String nombreColeccion: baseDeDatos.listCollectionNames() ) {
-			System.out.println(nombreColeccion);
-			
-		}
+//		for (String nombreColeccion: baseDeDatos.listCollectionNames() ) {
+//			System.out.println(nombreColeccion);
+//		}			
+
 		//collection.find(and(gt("precio", 1), lte("precio", 6))).forEach(doc -> System.out.println(((Document) doc).toJson()));
 		
 //		Document producto = new Document("nombre", "salsa" ) //CREAR un Documento BSON
@@ -66,10 +75,10 @@ public class Test {
 //										.append("proveedor", new Document("nombre", "Ditribuidora1")
 //												.append("direccion", "Direccion1234"));
 		
-		collection.insertOne(venta); // INSERTAR UN Documento BSON
+		
 //		System.out.println(producto.toJson()); // Imprimir un BSON en formato JSON
 //		System.out.println(producto.get("nombre"));// Imprimir un atributo del BSON		
 //		collection.updateOne(eq("nombre", "yerbaModificada") , set("nombre", "yerbaModificada111")); //ACTUALIZAR un BSON en una colleccion
 		//collection.deleteOne(eq("activo", true));
 	}
-	}
+}
