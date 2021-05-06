@@ -40,8 +40,8 @@ public class Test {
 		//Conexión con la colección (si no existe, mongoDB crea la coleccion cuando se alojen datos en ella)
 		//MongoCollection collection = baseDeDatos.getCollection("productos");
 		MongoCollection collection = baseDeDatos.getCollection("Venta", Venta.class );
-		Producto pro1 = new Producto(1, "Prod11", 34, "Ser", true );
-		Producto pro2 = new Producto(2, "Prod22", 22, "Ser", false );
+		Producto pro1 = new Producto(1, "Prod11", 34, "descripcion1", true );
+		Producto pro2 = new Producto(2, "Prod22", 22, "descripcion2", false );
 		Domicilio dom = new Domicilio(1, "calle", 45, "localidad3", "provincia3");
 		ObraSocial obraSocial = new ObraSocial(3, "OSDE.210");
 		Empleado emp = new Empleado(3, 22222222 , "María", "Palo", "233-111", dom, 0, null,"cuil" ,2 ,false );
