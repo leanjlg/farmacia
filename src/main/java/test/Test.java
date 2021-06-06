@@ -21,6 +21,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import static com.mongodb.client.model.Updates.*;// Para utilizar los métodos de actualizar documentos en la DB
 import com.mongodb.client.result.UpdateResult;//Para obtener información sobre el resultado de una operación de actualización.
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +58,23 @@ public class Test {
 		List<Venta> ventas = new ArrayList<Venta>();
 		ventas.add(venta);
 		
-		Sucursal sucursal = new Sucursal(1, dom, ventas);
+		Sucursal sucursal = new Sucursal(2, dom, ventas);
 		
-		sucursalCollection.insertOne(sucursal); // INSERTAR UN Documento BSON
+		//sucursalCollection.insertOne(sucursal); // INSERTAR UN Documento BSON
 		
-		
+		try {
+			Runtime.getRuntime().exec("mongoexport --host localhost --port 27017 --db farmacia --collection sucursal --out suc1.json");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Runtime.getRuntime().exec("mongoimport --db farmacia2 --collection sucursal --file C:\\Users\\J\\eclipse-workspace\\farmacia\\suc1.json");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 		//Traer lista de colecciones en una base de datos
 //		for (String nombreColeccion: baseDeDatos.listCollectionNames() ) {
 //			System.out.println(nombreColeccion);
